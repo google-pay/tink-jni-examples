@@ -6,7 +6,7 @@ First, please ensure that
 - Visual Studio 2010 or later is installed
 - Java Runtime Environment 8 or later is installed
 
-Next, download TinkJNIDotNet from [tink-jni-examples](https://github.com/google-pay/tink-jni-examples). Open solution TinkDotNetSample with Visual Studio. 
+Next, download [tink-jni-examples](https://github.com/google-pay/tink-jni-examples). Under folder TinkJNIDotNet, open solution TinkDotNetSample with Visual Studio. 
 
 ## 2. Configuration
 In App.config, update all settings that will be loaded during runtime. If you are not sure about the settings to be used, please ask your Google Pay point of contact.
