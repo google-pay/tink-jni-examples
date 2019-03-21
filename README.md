@@ -14,6 +14,6 @@ The core implementation of [Tink](https://github.com/google/tink) is in Java. Th
 * [C# JNI HOW-TO](docs/CS-HOWTO.md)
 
 ## Disclaimer
-This is not an official Google product or library, but sample codes of using [Tink](https://github.com/google/tink).
+This is not an official Google product or library.
 
 [Tink](https://github.com/google/tink) is the library actively maintained and supported by the Google Pay team.
