@@ -23,6 +23,7 @@ In App.config, update all settings that will be loaded during runtime. If you ar
   </appSettings>
 </configuration>
 ```
+**IMPORTANT NOTES** For PRODUCTION environment, it is advisable to fetch the Private Key from Hardware Security Module (HSM) or Environment Variables instead of storing it as plain text in config files.
 
 ## 3. Testing with Payment Data
 In Program.cs, update the variable _paymentSampleToken with the token of payment data generated using instructions from [test app](https://developers.google.com/pay/api/android/guides/tutorial#example) or [test web](https://developers.google.com/pay/api/web/guides/tutorial#full-example).
