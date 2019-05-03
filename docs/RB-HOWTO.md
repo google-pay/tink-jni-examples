@@ -2,7 +2,7 @@
 The following presents instructions of using [Tink](https://github.com/google/tink) library with Ruby.
 
 ## 1. Installation
-Download, unzip and open "TinkRubySample" project with Ruby IDE. Please ensure:
+Next, download [tink-jni-examples](https://github.com/google-pay/tink-jni-examples). Open folder "TinkJNIRuby" with any tools or IDEs. Please ensure:
 - [Ruby](https://www.ruby-lang.org/en/documentation/installation/) is installed
 - [Ruby Gems](https://rubygems.org/), the Ruby Package Management framework is installed
 - [RJB](https://rubygems.org/gems/rjb/versions/1.5.9) (Ruby Java Bridge) package is installed
@@ -26,7 +26,7 @@ Base64_PKCS8_Private_key: <place_your_private_key_here>
 # environment is either INSTANCE_TEST or INSTANCE_PRODUCTION
 Trusted_Signing_Keys_Env: INSTANCE_TEST
 ```
-**IMPORTANT NOTES**
+**IMPORTANT NOTES**<br/>
 For PRODUCTION environment, it is advisable to fetch the Private Key from Hardware Security Module (HSM) or Environment Variables instead of storing it as plain text in config files.
 
 ## 3. Testing with Payment Data
