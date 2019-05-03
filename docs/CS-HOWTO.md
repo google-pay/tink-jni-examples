@@ -23,7 +23,7 @@ In App.config, update all settings that will be loaded during runtime. If you ar
   </appSettings>
 </configuration>
 ```
-**IMPORTANT NOTES**
+**IMPORTANT NOTES**<br/>
 For PRODUCTION environment, it is advisable to fetch the Private Key from Hardware Security Module (HSM) or Environment Variables instead of storing it as plain text in config files.
 
 ## 3. Testing with Payment Data
