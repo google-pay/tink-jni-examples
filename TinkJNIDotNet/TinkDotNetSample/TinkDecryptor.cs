@@ -79,6 +79,8 @@ namespace TinkDotNetSample
                 "(Ljava/lang/String;)Lcom/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder;", _trustedSigningKeysJson);
             recipientBuilder.Invoke<java.lang.Object>("recipientId", "(Ljava/lang/String;)Lcom/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder;",
                 "gateway:" + gatewayName);
+            recipientBuilder.Invoke<java.lang.Object>("protocolVersion", "(Ljava/lang/String;)Lcom/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder;",
+                "ECv2");
             recipientBuilder.Invoke<java.lang.Object>("addRecipientPrivateKey", "(Ljava/lang/String;)Lcom/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder;",
                 privateKey);
             var recipient = recipientBuilder.Invoke<java.lang.Object>("build", "()Lcom/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient;");
