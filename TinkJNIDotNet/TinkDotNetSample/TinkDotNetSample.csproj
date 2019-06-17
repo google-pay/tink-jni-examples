@@ -69,7 +69,7 @@
     <Content Include="tink_jars\animal-sniffer-annotations-1.14.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="tink_jars\apps-paymentmethodtoken-1.2.0-rc3.jar">
+    <Content Include="tink_jars\apps-paymentmethodtoken-1.2.2.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="tink_jars\auto-common-0.8.jar">
@@ -156,10 +156,10 @@
     <Content Include="tink_jars\jsr305-1.3.9.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="tink_jars\protobuf-java-3.3.0.jar">
+    <Content Include="tink_jars\protobuf-java-3.6.0.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="tink_jars\tink-1.2.0-rc3.jar">
+    <Content Include="tink_jars\tink-1.2.2.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
