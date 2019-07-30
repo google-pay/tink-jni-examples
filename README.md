@@ -9,11 +9,13 @@ The core implementation of [Tink](https://github.com/google/tink) is in Java. Th
 ## Current Status
 * C# JNI example was released on 2019-03-31.
 * Ruby JNI example was released on 2019-05-03.
+* PHP Bridge example was released on 2019-07-29.
 * Stay tuned for others!
 
 ## Getting started
 * [C# JNI HOW-TO](docs/CS-HOWTO.md)
 * [Ruby JNI HOW-TO](docs/RB-HOWTO.md)
+* [PHP Bridge HOW-TO](docs/PHP-HOWTO.md)
 
 ## Disclaimer
 This is not an official Google product or library.
