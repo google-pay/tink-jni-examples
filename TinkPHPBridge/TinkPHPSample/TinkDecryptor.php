@@ -32,10 +32,10 @@
             $servlet = get_cfg_var("java_bridge_servlet_path");
             $local = get_cfg_var("java_bridge_local_path");
 
-            if (!is_writable($local)) {
+            if (file_exists($local) && !is_writable($local)) {
                 throw new Exception("java_bridge_local_path: {$local} write access denied.");
             }
-            else if (!file_exists($local)) {
+            else {
                 $remote_contents = file_get_contents($servlet);
                 file_put_contents($local, $remote_contents);
             }
