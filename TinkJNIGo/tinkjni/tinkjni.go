@@ -2,31 +2,31 @@ package tinkjni
 
 import (
 	"github.com/timob/jnigi"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"runtime"
-	"io/ioutil"
 )
 
 // A facade for payment method token recipient based on Tink library https://github.com/google/tink.
 // It uses timob/jnigi to connect between Go and Java with Java Native Interface.
 // Please ensure Java 8 or later is installed on your server.
 type Decryptor struct {
-	JVMLibrarPath	string
-	GoogleSigningKey	string
-	ProtocolVersion	string
-	RecipientId	string
-	RecipientPrivateKey	string
+	JVMLibraryPath      string
+	GoogleSigningKey    string
+	ProtocolVersion     string
+	RecipientId         string
+	RecipientPrivateKey string
 }
 
 func (d Decryptor) Decrypt(encryptedMessage string) string {
 	// load JVM library
-	if err := jnigi.LoadJVMLib(d.JVMLibrarPath); err != nil {
+	if err := jnigi.LoadJVMLib(d.JVMLibraryPath); err != nil {
 		log.Fatal(err)
-		log.Println(d.JVMLibrarPath)
+		log.Println(d.JVMLibraryPath)
 	}
-	
+
 	// construct classpath for JVM
 	_, curFilename, _, _ := runtime.Caller(1)
 	wd := path.Dir(curFilename)
@@ -43,13 +43,13 @@ func (d Decryptor) Decrypt(encryptedMessage string) string {
 	for _, f := range files {
 		classpath += path.Join(java_libs, f.Name()) + classpathSeparator
 	}
-	
+
 	// create JVM
 	_, env, err := jnigi.CreateJVM(jnigi.NewJVMInitArgs(false, true, jnigi.DEFAULT_VERSION, []string{"-Xcheck:jni", "-Xbootclasspath/a:" + classpath}))
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	// build payment method token recipient
 	builder, err := env.NewObject("com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder")
 	if err != nil {
@@ -60,7 +60,7 @@ func (d Decryptor) Decrypt(encryptedMessage string) string {
 	builder.CallMethod(env, "protocolVersion", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(env, d.ProtocolVersion))
 	builder.CallMethod(env, "addRecipientPrivateKey", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(env, d.RecipientPrivateKey))
 	recipient, err := builder.CallMethod(env, "build", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient")
-	
+
 	// decrypt and return as output
 	clearText, err := recipient.(*jnigi.ObjectRef).CallMethod(env, "unseal", "java/lang/String", fromGoStr(env, encryptedMessage))
 	if err != nil {

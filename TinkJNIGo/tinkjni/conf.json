@@ -1,6 +1,6 @@
 {
-	"//" : "JVM Library Path - used to locate libjvm.so for Linux and jvm.dll for Windows",
-	"JVMLibrarPath": "/usr/lib/jvm/default-java/lib/server/libjvm.so",
+	"//" : "JVM Library - path to libjvm.so (Linux), libjvm.dylib (mac), jvm.dll (Windows)",
+	"JVMLibraryPath": "/usr/lib/jvm/default-java/lib/server/libjvm.so",
 	
 	"//" : "ECv1 or ECv2",
 	"ProtocolVersion" : "ECv2",
