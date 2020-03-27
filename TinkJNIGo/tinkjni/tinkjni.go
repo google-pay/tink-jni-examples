@@ -1,3 +1,17 @@
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package tinkjni
 
 import (
@@ -20,7 +34,10 @@ type Decryptor struct {
 	RecipientPrivateKey string
 }
 
-func (d Decryptor) Decrypt(encryptedMessage string) string {
+var PaymentMethodTokenRecipient *jnigi.ObjectRef // static variable
+var JavaEnvironment *jnigi.Env                   // static variable
+
+func InitJVM(d Decryptor) { // static method
 	// load JVM library
 	if err := jnigi.LoadJVMLib(d.JVMLibraryPath); err != nil {
 		log.Fatal(err)
@@ -49,37 +66,41 @@ func (d Decryptor) Decrypt(encryptedMessage string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
+	JavaEnvironment = env
 
 	// build payment method token recipient
 	builder, err := env.NewObject("com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder")
 	if err != nil {
 		log.Fatal(err)
 	}
-	builder.CallMethod(env, "addSenderVerifyingKey", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(env, d.GoogleSigningKey))
-	builder.CallMethod(env, "recipientId", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(env, d.RecipientId))
-	builder.CallMethod(env, "protocolVersion", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(env, d.ProtocolVersion))
-	builder.CallMethod(env, "addRecipientPrivateKey", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(env, d.RecipientPrivateKey))
+	builder.CallMethod(env, "addSenderVerifyingKey", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(d.GoogleSigningKey))
+	builder.CallMethod(env, "recipientId", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(d.RecipientId))
+	builder.CallMethod(env, "protocolVersion", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(d.ProtocolVersion))
+	builder.CallMethod(env, "addRecipientPrivateKey", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient$Builder", fromGoStr(d.RecipientPrivateKey))
 	recipient, err := builder.CallMethod(env, "build", "com/google/crypto/tink/apps/paymentmethodtoken/PaymentMethodTokenRecipient")
+	PaymentMethodTokenRecipient = recipient.(*jnigi.ObjectRef)
+}
 
+func (d Decryptor) Decrypt(encryptedMessage string) string {
 	// decrypt and return as output
-	clearText, err := recipient.(*jnigi.ObjectRef).CallMethod(env, "unseal", "java/lang/String", fromGoStr(env, encryptedMessage))
+	clearText, err := PaymentMethodTokenRecipient.CallMethod(JavaEnvironment, "unseal", "java/lang/String", fromGoStr(encryptedMessage))
 	if err != nil {
 		log.Fatal(err)
 	}
-	var clearTextStr = toGoStr(env, clearText.(*jnigi.ObjectRef))
+	var clearTextStr = toGoStr(clearText.(*jnigi.ObjectRef))
 	return clearTextStr
 }
 
-func fromGoStr(env *jnigi.Env, str string) *jnigi.ObjectRef {
-	jstr, err := env.NewObject("java/lang/String", []byte(str))
+func fromGoStr(str string) *jnigi.ObjectRef {
+	jstr, err := JavaEnvironment.NewObject("java/lang/String", []byte(str))
 	if err != nil {
 		log.Fatal(err)
 	}
 	return jstr
 }
 
-func toGoStr(env *jnigi.Env, o *jnigi.ObjectRef) string {
-	v, err := o.CallMethod(env, "getBytes", jnigi.Byte|jnigi.Array)
+func toGoStr(o *jnigi.ObjectRef) string {
+	v, err := o.CallMethod(JavaEnvironment, "getBytes", jnigi.Byte|jnigi.Array)
 	if err != nil {
 		log.Fatal(err)
 	}
