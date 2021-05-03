@@ -11,13 +11,14 @@ The core implementation of [Tink](https://github.com/google/tink) is in Java. Th
 * 2019-05-03 - Ruby JNI example
 * 2019-07-29 - PHP Bridge example
 * 2020-07-02 - Go JNI examples
-* Future Release - Python JNI examples
+* 2021-04-30 - Python JNI examples
 
 ## Getting started
 * [C# JNI HOW-TO](docs/CS-HOWTO.md)
 * [Ruby JNI HOW-TO](docs/RB-HOWTO.md)
 * [PHP Bridge HOW-TO](docs/PHP-HOWTO.md)
 * [Go JNI HOW-TO](docs/GO-HOWTO.md)
+* [Python JNI HOW-TO](docs/PY-HOWTO.md)
 
 ## Disclaimer
 This is not an official Google product or library.
